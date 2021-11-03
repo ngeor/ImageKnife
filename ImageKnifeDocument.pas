@@ -35,10 +35,8 @@ type
     property NormalImage: TPicture read FNormalImage;
     property OverImage: TPicture read FOverImage;
   published
-    property NormalImageFilename: string read FNormalImageFilename
-      write SetNormalImageFilename;
-    property OverImageFilename: string read FOverImageFilename
-      write SetOverImageFilename;
+    property NormalImageFilename: string read FNormalImageFilename write SetNormalImageFilename;
+    property OverImageFilename: string read FOverImageFilename write SetOverImageFilename;
 
     property Grid: TRectGrid read FRectGrid write FRectGrid;
 
@@ -200,11 +198,9 @@ begin
   if OverImageFilename <> '' then
   begin
     OverImage.LoadFromFile(OverImageFilename);
-    if (NormalImage.Width <> OverImage.Width) or
-      (NormalImage.Height <> OverImage.Height) then
+    if (NormalImage.Width <> OverImage.Width) or (NormalImage.Height <> OverImage.Height) then
       raise Exception.Create('Image dimensions must be the same');
-    if (Grid.Rect.Right <> NormalImage.Width) or (Grid.Rect.Bottom <>
-      NormalImage.Height) then
+    if (Grid.Rect.Right <> NormalImage.Width) or (Grid.Rect.Bottom <> NormalImage.Height) then
       raise Exception.Create('Grid dimensions dont match images');
     if (Grid.Rect.Left <> 0) or (Grid.Rect.Top <> 0) then
       raise Exception.Create('Master rect must begin at top left');

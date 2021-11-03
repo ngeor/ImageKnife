@@ -77,8 +77,7 @@ type
 
     property IsBackground: boolean read FIsBackground write FIsBackground;
 
-    property Attributes[const AttrName: string]: string
-      read GetAttribute write SetAttribute;
+    property Attributes[const AttrName: string]: string read GetAttribute write SetAttribute;
   end;
 
 implementation

@@ -38,8 +38,7 @@ type
     function GetNodesByName(const str: string): TXMLNodeEnum;
 
     property Name: string read FName write FName;
-    property Attributes[const AttrName: string]: string
-      read GetAttribute write SetAttribute;
+    property Attributes[const AttrName: string]: string read GetAttribute write SetAttribute;
   end;
 
   TXMLWriter = class
@@ -251,14 +250,13 @@ end;
 
 function TXMLReader.IsNameStartingCharacter: boolean;
 begin
-  Result := ((FLastChar >= 'a') and (FLastChar <= 'z')) or
-    ((FLastChar >= 'A') and (FLastChar <= 'Z'));
+  Result := ((FLastChar >= 'a') and (FLastChar <= 'z')) or ((FLastChar >= 'A') and (FLastChar <= 'Z'));
 end;
 
 function TXMLReader.IsNameCharacter: boolean;
 begin
-  Result := (FLastChar in ['a'..'z']) or (FLastChar in ['A'..'Z']) or
-    (FLastChar in ['0'..'9']) or (FLastChar in ['_', '-']);
+  Result := (FLastChar in ['a'..'z']) or (FLastChar in ['A'..'Z']) or (FLastChar in ['0'..'9']) or
+    (FLastChar in ['_', '-']);
 end;
 
 
