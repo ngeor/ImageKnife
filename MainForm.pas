@@ -74,8 +74,7 @@ type
     StringGrid1: TStringGrid;
     procedure FormCreate(Sender: TObject);
     procedure mnuFileExitClick(Sender: TObject);
-    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState;
-      X, Y: integer);
+    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
@@ -98,13 +97,11 @@ type
     procedure btnSelectorClick(Sender: TObject);
     procedure btnSelectParentsClick(Sender: TObject);
     procedure btnGroupClick(Sender: TObject);
-    procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: integer);
+    procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure chkBackgroundClick(Sender: TObject);
     procedure cmbVAlignChange(Sender: TObject);
     procedure btnRefreshWidthClick(Sender: TObject);
-    procedure StringGrid1SetEditText(Sender: TObject; ACol, ARow: integer;
-      const Value: string);
+    procedure StringGrid1SetEditText(Sender: TObject; ACol, ARow: integer; const Value: string);
   private
     document: TImageKnifeDocument;
 
@@ -139,8 +136,7 @@ type
     function GetGridProperty(const Index: string): string;
     procedure SetGridProperty(const Index: string; const Value: string);
   public
-    property GridProperty[const Index: string]: string
-      read GetGridProperty write SetGridProperty;
+    property GridProperty[const Index: string]: string read GetGridProperty write SetGridProperty;
   end;
 
 var
@@ -444,8 +440,7 @@ end;
 
 function HTMLColor(col: DWORD): string;
 begin
-  Result := '#' + IntToHex(GetRValue(col), 2) + IntToHex(GetGValue(col), 2) +
-    IntToHex(GetBValue(col), 2);
+  Result := '#' + IntToHex(GetRValue(col), 2) + IntToHex(GetGValue(col), 2) + IntToHex(GetBValue(col), 2);
 end;
 
 procedure TForm1.BuildHTML;
@@ -540,8 +535,7 @@ procedure TForm1.BuildHTML;
       begin
         oldwidth := rg.Kids[0].Kids[j].Rect.Right - rg.Kids[0].Kids[j].Rect.Left;
         for i := 1 to rg.Kids.Count - 1 do
-          if oldwidth <> (rg.Kids[i].Kids[j].Rect.Right -
-            rg.Kids[i].Kids[j].Rect.Left) then
+          if oldwidth <> (rg.Kids[i].Kids[j].Rect.Right - rg.Kids[i].Kids[j].Rect.Left) then
             Exit;
       end;
     end;
@@ -572,8 +566,7 @@ procedure TForm1.BuildHTML;
       begin
         oldheight := rg.Kids[0].Kids[j].Rect.Bottom - rg.Kids[0].Kids[j].Rect.Top;
         for i := 1 to rg.Kids.Count - 1 do
-          if oldheight <> (rg.Kids[i].Kids[j].Rect.Bottom -
-            rg.Kids[i].Kids[j].Rect.Top) then
+          if oldheight <> (rg.Kids[i].Kids[j].Rect.Bottom - rg.Kids[i].Kids[j].Rect.Top) then
             Exit;
       end;
     end;
@@ -817,8 +810,7 @@ begin
     rg.IsSingleColor := chkSingleColor.Checked;
     if rg.IsSingleColor then
     begin
-      rg.SingleColor := document.NormalImage.Bitmap.Canvas.Pixels[
-        rg.Rect.Left, rg.Rect.Top];
+      rg.SingleColor := document.NormalImage.Bitmap.Canvas.Pixels[rg.Rect.Left, rg.Rect.Top];
       lblSingleColor.Color := rg.SingleColor;
     end;
   end;
@@ -929,8 +921,7 @@ begin
   BuildTree;
 end;
 
-procedure TForm1.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: integer);
+procedure TForm1.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 
 var
   k: TObjectList;
@@ -1131,8 +1122,7 @@ begin
 
 end;
 
-procedure TForm1.StringGrid1SetEditText(Sender: TObject; ACol, ARow: integer;
-  const Value: string);
+procedure TForm1.StringGrid1SetEditText(Sender: TObject; ACol, ARow: integer; const Value: string);
 var
   rg: TRectGrid;
   i: integer;
