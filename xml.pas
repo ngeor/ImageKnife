@@ -12,22 +12,22 @@ type
   TXMLNodeEnum = class
   private
     FList: TObjectList;
-    function GetCount: integer;
-    function GetItem(Index: integer): TXMLNode;
+    function GetCount: Integer;
+    function GetItem(Index: Integer): TXMLNode;
     constructor Create(AList: TObjectList);
   public
     destructor Destroy; override;
-    property Count: integer read GetCount;
-    property Item[Index: integer]: TXMLNode read GetItem; default;
+    property Count: Integer read GetCount;
+    property Item[Index: Integer]: TXMLNode read GetItem; default;
   end;
 
   TXMLNode = class
   private
-    FName: string;
+    FName: String;
     FAttributes: TStringList;
     FChildren: TObjectList;
-    function GetAttribute(const AttrName: string): string;
-    procedure SetAttribute(const AttrName: string; const Value: string);
+    function GetAttribute(const AttrName: String): String;
+    procedure SetAttribute(const AttrName: String; const Value: String);
     procedure Add(Child: TXMLNode);
   public
     constructor Create;
@@ -35,18 +35,18 @@ type
 
     function AddChild: TXMLNode;
 
-    function GetNodesByName(const str: string): TXMLNodeEnum;
+    function GetNodesByName(const str: String): TXMLNodeEnum;
 
-    property Name: string read FName write FName;
-    property Attributes[const AttrName: string]: string
+    property Name: String read FName write FName;
+    property Attributes[const AttrName: String]: String
       read GetAttribute write SetAttribute;
   end;
 
   TXMLWriter = class
   private
     FStream: TStream;
-    procedure Write(const str: string); overload;
-    procedure WriteLn(const str: string);
+    procedure Write(const str: String); overload;
+    procedure WriteLn(const str: String);
   public
     constructor Create(Stream: TStream);
     procedure Write(node: TXMLNode); overload;
@@ -55,14 +55,14 @@ type
   TXMLReader = class
   private
     FStream: TStream;
-    FLastChar: char;
+    FLastChar: Char;
     procedure ReadChar;
     procedure SkipSpace;
-    function ReadName: string;
-    function ReadValue: string;
-    function IsNameCharacter: boolean;
-    function IsNameStartingCharacter: boolean;
-    function EOF: boolean;
+    function ReadName: String;
+    function ReadValue: String;
+    function IsNameCharacter: Boolean;
+    function IsNameStartingCharacter: Boolean;
+    function EOF: Boolean;
   public
     constructor Create(Stream: TStream);
     function Read: TXMLNode;
@@ -70,7 +70,7 @@ type
 
 implementation
 
-function EncodeXML(const str: string): string;
+function EncodeXML(const str: String): String;
 begin
   Result := str;
   Result := StringReplace(Result, '&', '&amp;', [rfReplaceAll]);
@@ -78,7 +78,7 @@ begin
   Result := StringReplace(Result, '>', '&gt;', [rfReplaceAll]);
 end;
 
-function DecodeXML(const str: string): string;
+function DecodeXML(const str: String): String;
 begin
   Result := str;
   Result := StringReplace(Result, '&gt;', '>', [rfReplaceAll]);
@@ -86,12 +86,12 @@ begin
   Result := StringReplace(Result, '&amp;', '&', [rfReplaceAll]);
 end;
 
-function TXMLNodeEnum.GetCount: integer;
+function TXMLNodeEnum.GetCount: Integer;
 begin
   Result := FList.Count;
 end;
 
-function TXMLNodeEnum.GetItem(Index: integer): TXMLNode;
+function TXMLNodeEnum.GetItem(Index: Integer): TXMLNode;
 begin
   Result := FList[Index] as TXMLNode;
 end;
@@ -134,20 +134,20 @@ begin
   FChildren.Add(Result);
 end;
 
-function TXMLNode.GetAttribute(const AttrName: string): string;
+function TXMLNode.GetAttribute(const AttrName: String): String;
 begin
   Result := FAttributes.Values[AttrName];
 end;
 
-procedure TXMLNode.SetAttribute(const AttrName: string; const Value: string);
+procedure TXMLNode.SetAttribute(const AttrName: String; const Value: String);
 begin
   FAttributes.Values[AttrName] := Value;
 end;
 
-function TXMLNode.GetNodesByName(const str: string): TXMLNodeEnum;
+function TXMLNode.GetNodesByName(const str: String): TXMLNodeEnum;
 var
   list: TObjectList;
-  i: integer;
+  i: Integer;
 begin
   list := TObjectList.Create(False);
   for i := 0 to Self.FChildren.Count - 1 do
@@ -164,20 +164,20 @@ begin
   FStream := Stream;
 end;
 
-procedure TXMLWriter.Write(const str: string);
+procedure TXMLWriter.Write(const str: String);
 begin
   FStream.Write(str[1], Length(str));
 end;
 
-procedure TXMLWriter.WriteLn(const str: string);
+procedure TXMLWriter.WriteLn(const str: String);
 begin
   Write(str + #13#10);
 end;
 
 procedure TXMLWriter.Write(Node: TXMLNode);
 var
-  i: integer;
-  strName, strValue: string;
+  i: Integer;
+  strName, strValue: String;
 begin
   Write('<' + Node.Name);
   for i := 0 to Node.FAttributes.Count - 1 do
@@ -207,14 +207,14 @@ begin
   FLastChar := ' ';
 end;
 
-function TXMLReader.EOF: boolean;
+function TXMLReader.EOF: Boolean;
 begin
   Result := FLastChar = Chr(26);
 end;
 
 procedure TXMLReader.ReadChar;
 begin
-  if FStream.Read(FLastChar, SizeOf(char)) < SizeOf(char) then
+  if FStream.Read(FLastChar, SizeOf(Char)) < SizeOf(Char) then
   begin
     FLastChar := Chr(26);
   end;
@@ -226,7 +226,7 @@ begin
     ReadChar;
 end;
 
-function TXMLReader.ReadName: string;
+function TXMLReader.ReadName: String;
 begin
   if not IsNameStartingCharacter then
     raise Exception.Create('Expected latin letter');
@@ -238,7 +238,7 @@ begin
   end;
 end;
 
-function TXMLReader.ReadValue: string;
+function TXMLReader.ReadValue: String;
 begin
   Result := '';
   while (not EOF) and (FLastChar <> '"') do
@@ -249,13 +249,13 @@ begin
   Result := DecodeXML(Result);
 end;
 
-function TXMLReader.IsNameStartingCharacter: boolean;
+function TXMLReader.IsNameStartingCharacter: Boolean;
 begin
   Result := ((FLastChar >= 'a') and (FLastChar <= 'z')) or
     ((FLastChar >= 'A') and (FLastChar <= 'Z'));
 end;
 
-function TXMLReader.IsNameCharacter: boolean;
+function TXMLReader.IsNameCharacter: Boolean;
 begin
   Result := (FLastChar in ['a'..'z']) or (FLastChar in ['A'..'Z']) or
     (FLastChar in ['0'..'9']) or (FLastChar in ['_', '-']);
@@ -264,8 +264,8 @@ end;
 
 function TXMLReader.Read: TXMLNode;
 var
-  strAttrName, strAttrValue: string;
-  closedTag: boolean;
+  strAttrName, strAttrValue: String;
+  closedTag: Boolean;
 begin
   SkipSpace;
   if EOF then
