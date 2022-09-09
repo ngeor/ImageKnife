@@ -9,40 +9,40 @@ uses RectGrid, Classes, Graphics, SysUtils;
 type
   TImageKnifeDocument = class
   private
-    FNormalImageFilename: string;
-    FOverImageFilename: string;
+    FNormalImageFilename: String;
+    FOverImageFilename: String;
     FRectGrid: TRectGrid;
-    FFilename: string;
+    FFilename: String;
     FNormalImage: TPicture;
     FOverImage: TPicture;
-    function IsEmpty: boolean;
-    procedure SetNormalImageFilename(const str: string);
-    procedure SetOverImageFilename(const str: string);
-    function GetWidth: integer;
-    function GetHeight: integer;
+    function IsEmpty: Boolean;
+    procedure SetNormalImageFilename(const str: String);
+    procedure SetOverImageFilename(const str: String);
+    function GetWidth: Integer;
+    function GetHeight: Integer;
   public
     constructor Create;
     destructor Destroy; override;
 
     procedure NewDocument;
 
-    procedure LoadFromFile(const Filename: string);
-    procedure SaveToFile(const Filename: string);
+    procedure LoadFromFile(const Filename: String);
+    procedure SaveToFile(const Filename: String);
 
-    property Empty: boolean read IsEmpty;
-    property Width: integer read GetWidth;
-    property Height: integer read GetHeight;
+    property Empty: Boolean read IsEmpty;
+    property Width: Integer read GetWidth;
+    property Height: Integer read GetHeight;
     property NormalImage: TPicture read FNormalImage;
     property OverImage: TPicture read FOverImage;
   published
-    property NormalImageFilename: string read FNormalImageFilename
+    property NormalImageFilename: String read FNormalImageFilename
       write SetNormalImageFilename;
-    property OverImageFilename: string read FOverImageFilename
+    property OverImageFilename: String read FOverImageFilename
       write SetOverImageFilename;
 
     property Grid: TRectGrid read FRectGrid write FRectGrid;
 
-    property Filename: string read FFilename write FFilename;
+    property Filename: String read FFilename write FFilename;
 
 
 
@@ -84,12 +84,12 @@ begin
   FFilename := '';
 end;
 
-function TImageKnifeDocument.IsEmpty: boolean;
+function TImageKnifeDocument.IsEmpty: Boolean;
 begin
   Result := FRectGrid = nil;
 end;
 
-function TImageKnifeDocument.GetWidth: integer;
+function TImageKnifeDocument.GetWidth: Integer;
 begin
   if IsEmpty then
     Result := 0
@@ -97,7 +97,7 @@ begin
     Result := FRectGrid.Rect.Right;
 end;
 
-function TImageKnifeDocument.GetHeight: integer;
+function TImageKnifeDocument.GetHeight: Integer;
 begin
   if IsEmpty then
     Result := 0
@@ -105,7 +105,7 @@ begin
     Result := FRectGrid.Rect.Bottom;
 end;
 
-procedure TImageKnifeDocument.SetNormalImageFilename(const str: string);
+procedure TImageKnifeDocument.SetNormalImageFilename(const str: String);
 var
   p: TPicture;
 begin
@@ -132,7 +132,7 @@ begin
   end;
 end;
 
-procedure TImageKnifeDocument.SetOverImageFilename(const str: string);
+procedure TImageKnifeDocument.SetOverImageFilename(const str: String);
 var
   p: TPicture;
 begin
@@ -159,7 +159,7 @@ begin
   end;
 end;
 
-procedure TImageKnifeDocument.LoadFromFile(const Filename: string);
+procedure TImageKnifeDocument.LoadFromFile(const Filename: String);
 var
   f: TFileStream;
   r: TXMLReader;
@@ -212,7 +212,7 @@ begin
 
 end;
 
-procedure TImageKnifeDocument.SaveToFile(const Filename: string);
+procedure TImageKnifeDocument.SaveToFile(const Filename: String);
 var
   f: TFileStream;
   w: TXMLWriter;

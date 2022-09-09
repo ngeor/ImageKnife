@@ -74,13 +74,13 @@ type
     StringGrid1: TStringGrid;
     procedure FormCreate(Sender: TObject);
     procedure mnuFileExitClick(Sender: TObject);
-    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
-    procedure TreeView1Edited(Sender: TObject; Node: TTreeNode; var S: string);
+    procedure TreeView1Edited(Sender: TObject; Node: TTreeNode; var S: String);
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
     procedure btnAutoNameClick(Sender: TObject);
     procedure mnuFileNewClick(Sender: TObject);
@@ -98,12 +98,12 @@ type
     procedure btnSelectParentsClick(Sender: TObject);
     procedure btnGroupClick(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: integer);
+      Shift: TShiftState; X, Y: Integer);
     procedure chkBackgroundClick(Sender: TObject);
     procedure cmbVAlignChange(Sender: TObject);
     procedure btnRefreshWidthClick(Sender: TObject);
-    procedure StringGrid1SetEditText(Sender: TObject; ACol, ARow: integer;
-      const Value: string);
+    procedure StringGrid1SetEditText(Sender: TObject; ACol, ARow: Integer;
+      const Value: String);
   private
     document: TImageKnifeDocument;
 
@@ -111,13 +111,13 @@ type
     OldMarker: TPoint;
     MarkerMode: (mmSelect, mmSelectParents, mmHorizontal, mmVertical, mmCross);
 
-    zoomLevel: double;
+    zoomLevel: Double;
 
     procedure DrawCross(const ptPhysical: TPoint);
     procedure DrawHorizontal(const ptPhysical: TPoint);
     procedure DrawVertical(const ptPhysical: TPoint);
     procedure DrawMarker(const ptLogical: TPoint);
-    procedure SaveRect(const Filename: string; const rt: TRect);
+    procedure SaveRect(const Filename: String; const rt: TRect);
     procedure BuildTree;
     procedure BuildHTML;
     procedure BuildTreeOneLevel(const node: TTreeNode; const rg: TRectGrid);
@@ -135,10 +135,10 @@ type
 
     procedure InitializePropertyGrid;
 
-    function GetGridProperty(const Index: string): string;
-    procedure SetGridProperty(const Index: string; const Value: string);
+    function GetGridProperty(const Index: String): String;
+    procedure SetGridProperty(const Index: String; const Value: String);
   public
-    property GridProperty[const Index: string]: string
+    property GridProperty[const Index: String]: String
       read GetGridProperty write SetGridProperty;
   end;
 
@@ -248,7 +248,7 @@ begin
   Close;
 end;
 
-procedure TForm1.SaveRect(const Filename: string; const rt: TRect);
+procedure TForm1.SaveRect(const Filename: String; const rt: TRect);
 var
   bmp: TBitmap;
   //png: TPNGObject;
@@ -272,7 +272,7 @@ begin
   //png.Free;
 end;
 
-procedure TForm1.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+procedure TForm1.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
   pt: TPoint;
 begin
@@ -320,8 +320,8 @@ const
 var
   k: TObjectList;
   rg: TRectGrid;
-  x, y: integer;
-  i: integer;
+  x, y: Integer;
+  i: Integer;
   physRect: TRect;
 begin
   if document.Empty then
@@ -376,7 +376,7 @@ end;
 procedure TForm1.BuildTreeOneLevel(const node: TTreeNode; const rg: TRectGrid);
 var
   nn: TTreeNode;
-  i: integer;
+  i: Integer;
 begin
   nn := TreeView1.Items.AddChild(node, rg.Name);
   nn.Data := rg;
@@ -385,7 +385,7 @@ begin
       BuildTreeOneLevel(nn, rg.Kids[i]);
 end;
 
-procedure TForm1.TreeView1Edited(Sender: TObject; Node: TTreeNode; var S: string);
+procedure TForm1.TreeView1Edited(Sender: TObject; Node: TTreeNode; var S: String);
 var
   rg: TRectGrid;
 begin
@@ -415,8 +415,8 @@ procedure TForm1.btnAutoNameClick(Sender: TObject);
 
   procedure RenameKids(rg: TRectGrid);
   var
-    i: integer;
-    s: string;
+    i: Integer;
+    s: String;
   begin
     if not rg.Sliced then
       Exit;
@@ -441,7 +441,7 @@ begin
   BuildTree;
 end;
 
-function HTMLColor(col: DWORD): string;
+function HTMLColor(col: DWORD): String;
 begin
   Result := '#' + IntToHex(GetRValue(col), 2) + IntToHex(GetGValue(col), 2) +
     IntToHex(GetBValue(col), 2);
@@ -449,7 +449,7 @@ end;
 
 procedure TForm1.BuildHTML;
 
-  procedure AddText(const template, Value: string);
+  procedure AddText(const template, Value: String);
   begin
     if Value <> '' then
       Memo1.Text := Memo1.Text + StringReplace(template, '?', Value, []);
@@ -491,7 +491,7 @@ procedure TForm1.BuildHTML;
 
   procedure WriteHTMLTable(const rg: TRectGrid);
   var
-    i, j: integer;
+    i, j: Integer;
   begin
     for i := 0 to rg.Kids.Count - 1 do
     begin
@@ -504,7 +504,7 @@ procedure TForm1.BuildHTML;
 
   procedure WriteInvertedHTMLTable(const rg: TRectGrid);
   var
-    i, j: integer;
+    i, j: Integer;
   begin
     for j := 0 to rg.Kids[0].Kids.Count - 1 do
     begin
@@ -515,11 +515,11 @@ procedure TForm1.BuildHTML;
     end;
   end;
 
-  function IsHTMLTable(const rg: TRectGrid): boolean;
+  function IsHTMLTable(const rg: TRectGrid): Boolean;
   var
-    i, j: integer;
-    oldcount: integer;
-    oldwidth: integer;
+    i, j: Integer;
+    oldcount: Integer;
+    oldwidth: Integer;
   begin
     Result := False;
     if (rg.SliceType = stHorizontal) then
@@ -547,11 +547,11 @@ procedure TForm1.BuildHTML;
     Result := True;
   end;
 
-  function IsInvertedHTMLTable(const rg: TRectGrid): boolean;
+  function IsInvertedHTMLTable(const rg: TRectGrid): Boolean;
   var
-    i, j: integer;
-    oldcount: integer;
-    oldheight: integer;
+    i, j: Integer;
+    oldcount: Integer;
+    oldheight: Integer;
   begin
     Result := False;
     if (rg.SliceType = stVertical) then
@@ -581,7 +581,7 @@ procedure TForm1.BuildHTML;
 
   procedure BuildHTMLOneLevel(const rg: TRectGrid);
   var
-    i: integer;
+    i: Integer;
   begin
     if rg.SliceType = stNone then
       Memo1.Text := Memo1.Text + '<img src="' + rg.Name + '.png">'
@@ -734,12 +734,12 @@ end;
 
 procedure TForm1.mnuFileExportClick(Sender: TObject);
 var
-  strPath: string;
+  strPath: String;
 
   k: TObjectList;
   rg: TRectGrid;
 
-  i: integer;
+  i: Integer;
 
 begin
   if document.Empty then
@@ -827,15 +827,15 @@ procedure TForm1.btnScan1Click(Sender: TObject);
 var
   k: TObjectList;
   rg: TRectGrid;
-  i: integer;
+  i: Integer;
 
-  x, y: integer;
+  x, y: Integer;
 
   lastColor: TColor;
 
   rt: TRect;
 
-  found: boolean;
+  found: Boolean;
 begin
   if document.Empty then
     Exit;
@@ -897,8 +897,8 @@ end;
 
 procedure TForm1.btnGroupClick(Sender: TObject);
 var
-  iMin, iMax: integer;
-  i, iCur: integer;
+  iMin, iMax: Integer;
+  i, iCur: Integer;
   rg, oldParent: TRectGrid;
 begin
   if rgSelection.Count <= 1 then
@@ -929,12 +929,12 @@ begin
 end;
 
 procedure TForm1.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: integer);
+  Shift: TShiftState; X, Y: Integer);
 
 var
   k: TObjectList;
   rg: TRectGrid;
-  i: integer;
+  i: Integer;
 
 begin
   if document.Empty then
@@ -1036,9 +1036,9 @@ begin
   StringGrid1.Cells[0, 4] := 'background-position';
 end;
 
-function TForm1.GetGridProperty(const Index: string): string;
+function TForm1.GetGridProperty(const Index: String): String;
 var
-  i: integer;
+  i: Integer;
 begin
   Result := '';
   for i := 0 to StringGrid1.RowCount - 1 do
@@ -1049,9 +1049,9 @@ begin
     end;
 end;
 
-procedure TForm1.SetGridProperty(const Index: string; const Value: string);
+procedure TForm1.SetGridProperty(const Index: String; const Value: String);
 var
-  i: integer;
+  i: Integer;
 begin
 
   for i := 0 to StringGrid1.RowCount - 1 do
@@ -1065,7 +1065,7 @@ end;
 procedure TForm1.SelectionChanged;
 var
   rg: TRectGrid;
-  i: integer;
+  i: Integer;
 begin
   if rgSelection.Count = 1 then
   begin
@@ -1093,7 +1093,7 @@ end;
 procedure TForm1.chkBackgroundClick(Sender: TObject);
 var
   rg: TRectGrid;
-  i: integer;
+  i: Integer;
 begin
   for i := 0 to rgSelection.Count - 1 do
   begin
@@ -1106,7 +1106,7 @@ end;
 procedure TForm1.cmbVAlignChange(Sender: TObject);
 var
   rg: TRectGrid;
-  i: integer;
+  i: Integer;
 begin
   for i := 0 to rgSelection.Count - 1 do
   begin
@@ -1119,7 +1119,7 @@ end;
 procedure TForm1.btnRefreshWidthClick(Sender: TObject);
 var
   rg: TRectGrid;
-  i: integer;
+  i: Integer;
 begin
   for i := 0 to rgSelection.Count - 1 do
   begin
@@ -1130,12 +1130,12 @@ begin
 
 end;
 
-procedure TForm1.StringGrid1SetEditText(Sender: TObject; ACol, ARow: integer;
-  const Value: string);
+procedure TForm1.StringGrid1SetEditText(Sender: TObject; ACol, ARow: Integer;
+  const Value: String);
 var
   rg: TRectGrid;
-  i: integer;
-  strName: string;
+  i: Integer;
+  strName: String;
 begin
   strName := StringGrid1.Cells[0, ARow];
   for i := 0 to rgSelection.Count - 1 do

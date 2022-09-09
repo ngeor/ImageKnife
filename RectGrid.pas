@@ -14,11 +14,11 @@ type
   TRectGridList = class
   private
     FList: TObjectList;
-    function GetItem(Index: integer): TRectGrid;
-    function GetCount: integer;
+    function GetItem(Index: Integer): TRectGrid;
+    function GetCount: Integer;
   protected
     procedure Remove(rg: TRectGrid);
-    procedure Insert(Index: integer; rg: TRectGrid);
+    procedure Insert(Index: Integer; rg: TRectGrid);
     procedure Add(rg: TRectGrid);
 
   public
@@ -26,13 +26,13 @@ type
     destructor Destroy; override;
 
     procedure Clear;
-    function IndexOf(rg: TRectGrid): integer;
+    function IndexOf(rg: TRectGrid): Integer;
 
 
 
 
-    property Items[Index: integer]: TRectGrid read GetItem; default;
-    property Count: integer read GetCount;
+    property Items[Index: Integer]: TRectGrid read GetItem; default;
+    property Count: Integer read GetCount;
 
   end;
 
@@ -40,27 +40,27 @@ type
   private
     FRect: TRect;
     FKids: TRectGridList;
-    FName: string;
+    FName: String;
 
     FSliceType: TSliceType;
     FParent: TRectGrid;
     FSingleColor: DWORD;
-    FIsSingleColor: boolean;
-    FIsBackground: boolean;
+    FIsSingleColor: Boolean;
+    FIsBackground: Boolean;
     FAttributes: TStringList;
-    function GetAttribute(const AttrName: string): string;
-    procedure SetAttribute(const AttrName: string; const Value: string);
-    function IsSliced: boolean;
+    function GetAttribute(const AttrName: String): String;
+    procedure SetAttribute(const AttrName: String; const Value: String);
+    function IsSliced: Boolean;
     function NewKid(const rt: TRect): TRectGrid;
   public
     constructor Create(const rt: TRect);
     destructor Destroy; override;
     function RectFromPos(const Pt: TPoint): TRectGrid;
-    procedure RectsFromX(const X: integer; list: TObjectList);
-    procedure RectsFromY(const Y: integer; list: TObjectList);
-    procedure SliceHorizontal(const Y: integer);
-    procedure SliceVertical(const X: integer);
-    procedure GroupKids(FromIndex, ToIndex: integer);
+    procedure RectsFromX(const X: Integer; list: TObjectList);
+    procedure RectsFromY(const Y: Integer; list: TObjectList);
+    procedure SliceHorizontal(const Y: Integer);
+    procedure SliceVertical(const X: Integer);
+    procedure GroupKids(FromIndex, ToIndex: Integer);
 
     procedure LoadFromXML(me: TXMLNode);
     procedure SaveToXML(parent: TXMLNode);
@@ -68,16 +68,16 @@ type
     property Rect: TRect read FRect;
 
     property Kids: TRectGridList read FKids;
-    property Sliced: boolean read IsSliced;
+    property Sliced: Boolean read IsSliced;
     property SliceType: TSliceType read FSliceType;
-    property Name: string read FName write FName;
+    property Name: String read FName write FName;
 
-    property IsSingleColor: boolean read FIsSingleColor write FIsSingleColor;
+    property IsSingleColor: Boolean read FIsSingleColor write FIsSingleColor;
     property SingleColor: DWORD read FSingleColor write FSingleColor;
 
-    property IsBackground: boolean read FIsBackground write FIsBackground;
+    property IsBackground: Boolean read FIsBackground write FIsBackground;
 
-    property Attributes[const AttrName: string]: string
+    property Attributes[const AttrName: String]: String
       read GetAttribute write SetAttribute;
   end;
 
@@ -95,22 +95,22 @@ begin
   FList.Free;
 end;
 
-function TRectGridList.GetCount: integer;
+function TRectGridList.GetCount: Integer;
 begin
   Result := FList.Count;
 end;
 
-function TRectGridList.GetItem(Index: integer): TRectGrid;
+function TRectGridList.GetItem(Index: Integer): TRectGrid;
 begin
   Result := TRectGrid(FList.Items[Index]);
 end;
 
-function TRectGridList.IndexOf(rg: TRectGrid): integer;
+function TRectGridList.IndexOf(rg: TRectGrid): Integer;
 begin
   Result := FList.IndexOf(rg);
 end;
 
-procedure TRectGridList.Insert(Index: integer; rg: TRectGrid);
+procedure TRectGridList.Insert(Index: Integer; rg: TRectGrid);
 begin
   FList.Insert(Index, rg);
 end;
@@ -148,24 +148,24 @@ begin
   inherited Destroy;
 end;
 
-function TRectGrid.GetAttribute(const AttrName: string): string;
+function TRectGrid.GetAttribute(const AttrName: String): String;
 begin
   Result := FAttributes.Values[AttrName];
 end;
 
-procedure TRectGrid.SetAttribute(const AttrName: string; const Value: string);
+procedure TRectGrid.SetAttribute(const AttrName: String; const Value: String);
 begin
   FAttributes.Values[AttrName] := Value;
 end;
 
-function TRectGrid.IsSliced: boolean;
+function TRectGrid.IsSliced: Boolean;
 begin
   Result := FKids.Count >= 2;
 end;
 
 function TRectGrid.RectFromPos(const Pt: TPoint): TRectGrid;
 var
-  i: integer;
+  i: Integer;
 begin
   Result := nil;
   if PtInRect(FRect, pt) then
@@ -186,9 +186,9 @@ begin
   end;
 end;
 
-procedure TRectGrid.RectsFromX(const X: integer; list: TObjectList);
+procedure TRectGrid.RectsFromX(const X: Integer; list: TObjectList);
 var
-  i: integer;
+  i: Integer;
 begin
   if (FRect.Left <= X) and (X <= FRect.Right) then
     if (not Sliced) then
@@ -200,9 +200,9 @@ begin
     end;
 end;
 
-procedure TRectGrid.RectsFromY(const Y: integer; list: TObjectList);
+procedure TRectGrid.RectsFromY(const Y: Integer; list: TObjectList);
 var
-  i: integer;
+  i: Integer;
 begin
   if (FRect.Top <= Y) and (Y <= FRect.Bottom) then
     if (not Sliced) then
@@ -220,9 +220,9 @@ begin
   Result.FParent := Self;
 end;
 
-procedure TRectGrid.SliceHorizontal(const Y: integer);
+procedure TRectGrid.SliceHorizontal(const Y: Integer);
 var
-  parentIndex: integer;
+  parentIndex: Integer;
   rtA, rtB: TRect;
 begin
   if (FRect.Top > Y) or (Y > FRect.Bottom) then
@@ -251,9 +251,9 @@ begin
 
 end;
 
-procedure TRectGrid.SliceVertical(const X: integer);
+procedure TRectGrid.SliceVertical(const X: Integer);
 var
-  parentIndex: integer;
+  parentIndex: Integer;
   rtA, rtB: TRect;
 begin
   if (FRect.Left > X) or (X > FRect.Right) then
@@ -283,13 +283,13 @@ end;
 
 procedure TRectGrid.LoadFromXML(me: TXMLNode);
 const
-  strSlice: array [TSliceType] of string = ('stNone', 'stHorizontal', 'stVertical');
+  strSlice: array [TSliceType] of String = ('stNone', 'stHorizontal', 'stVertical');
 var
-  i: integer;
+  i: Integer;
   rg: TRectGrid;
-  tmp: string;
+  tmp: String;
   enum: TXMLNodeEnum;
-  strName, strValue: string;
+  strName, strValue: String;
 begin
 
   Self.Name := me.Attributes['Name'];
@@ -344,11 +344,11 @@ end;
 
 procedure TRectGrid.SaveToXML(parent: TXMLNode);
 const
-  strSlice: array [TSliceType] of string = ('stNone', 'stHorizontal', 'stVertical');
+  strSlice: array [TSliceType] of String = ('stNone', 'stHorizontal', 'stVertical');
 var
-  i: integer;
+  i: Integer;
   me, attrNode: TXMLNode;
-  strName, strValue: string;
+  strName, strValue: String;
 begin
   me := parent.AddChild;
   me.Name := 'cell';
@@ -385,11 +385,11 @@ begin
 
 end;
 
-procedure TRectGrid.GroupKids(FromIndex, ToIndex: integer);
+procedure TRectGrid.GroupKids(FromIndex, ToIndex: Integer);
 var
   rt: TRect;
   newParent, rg: TRectGrid;
-  i: integer;
+  i: Integer;
 begin
   rt.Left := FKids[FromIndex].FRect.Left;
   rt.Top := FKids[FromIndex].FRect.Top;
